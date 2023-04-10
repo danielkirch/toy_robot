@@ -3,11 +3,15 @@ defmodule ToyRobot.Caller do
     File.read!(filename)
     |> String.split("\n")
     |> Enum.filter(fn line -> line != "" end)
+    # |> Enum.filter(&(&1 != ""))
     |> Enum.map(fn line ->
       request = parse_line(line)
       response = GenServer.call(ToyRobot.Server, request)
-      print_response(response)
+      format_response(response)
     end)
+    |> Enum.filter(fn line -> line != nil end)
+    |> Enum.map(fn line -> line <> "\n" end)
+    |> Enum.join()
   end
 
   defp parse_line("PLACE " <> state_str) do
@@ -34,10 +38,9 @@ defmodule ToyRobot.Caller do
   defp parse_line("RIGHT"), do: :right
   defp parse_line("MOVE"), do: :move
 
-  defp print_response(nil), do: nil
+  defp format_response(nil), do: nil
 
-  defp print_response(state) do
+  defp format_response(state) do
     ToyRobot.State.to_string(state)
-    |> IO.puts()
   end
 end
