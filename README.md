@@ -1,6 +1,6 @@
 # ToyRobot
 
-**TODO: Add description**
+An example implementation of the toy robot exercise in Elixir (I got the inspiration from here: https://leanpub.com/elixir-toyrobot).
 
 ## Installation
 
